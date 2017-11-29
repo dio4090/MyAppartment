@@ -3,4 +3,15 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_profile">Profile</string>
+    <string name="action_chat">Chat</string>
+    <string name="action_apartment">Apartment</string>
+    <string name="action_logout">Logout</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="main_projects">Projects</string>
+    <string name="main_mobile_number">Mobile Number</string>
+    <string name="main_email">Email</string>
+    <string name="main_address">Address</string>
+    <string name="main_name">Name</string>
+    <string name="main_welcome">Welcome to your user area!</string>
 </resources>
