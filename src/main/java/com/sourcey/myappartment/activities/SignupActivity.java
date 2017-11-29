@@ -1,4 +1,4 @@
-package com.sourcey.myappartment;
+package com.sourcey.myappartment.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.requests.RegisterRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
                     boolean success = (Boolean) jsonResponse.getBoolean("success");
 
                     if(success) {
-                        //startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                     } else {
                         // AlertDialog
                     }

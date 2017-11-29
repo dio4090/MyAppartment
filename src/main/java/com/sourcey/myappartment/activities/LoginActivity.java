@@ -1,4 +1,4 @@
-package com.sourcey.myappartment;
+package com.sourcey.myappartment.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.sourcey.myappartment.requests.LoginRequest;
+import com.sourcey.myappartment.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.sourcey.myappartment.LoginActivity"
+            android:name="com.sourcey.myappartment.activities.LoginActivity"
             android:theme="@style/AppTheme.Dark"
             android:label="@string/app_name" >
             <intent-filter>
@@ -23,8 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.sourcey.myappartment.MainActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name="com.sourcey.myappartment.SignupActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="com.sourcey.myappartment.activities.MainActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="com.sourcey.myappartment.activities.SignupActivity" android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
