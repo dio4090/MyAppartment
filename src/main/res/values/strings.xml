@@ -14,4 +14,6 @@
     <string name="main_address">Address</string>
     <string name="main_name">Name</string>
     <string name="main_welcome">Welcome to your user area!</string>
+    <string name="login">Login</string>
+    <string name="create_account">No account yet? Create one</string>
 </resources>

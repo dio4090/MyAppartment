@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="Mobile Number"
+                android:hint="@string/main_mobile_number"
                 android:textColor="@color/oil" />
         </android.support.design.widget.TextInputLayout>
 
