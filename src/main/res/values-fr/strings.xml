@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyAppartment</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="hello_world">Bonjour le monde!</string>
+    <string name="action_profile">Profil</string>
+    <string name="action_chat">Bavarder</string>
+    <string name="action_apartment">Appartement</string>
+    <string name="action_logout">Sortez</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="main_projects">Projets</string>
+    <string name="main_mobile_number">Numéro de portable</string>
+    <string name="main_email">Email</string>
+    <string name="main_address">Adresse</string>
+    <string name="main_name">Prénom</string>
+    <string name="main_welcome">Bienvenue dans votre espace utilisateur!</string>
+    <string name="login">S\'identifier</string>
+    <string name="create_account">Pas encore de compte? Créer une</string>
+</resources>
