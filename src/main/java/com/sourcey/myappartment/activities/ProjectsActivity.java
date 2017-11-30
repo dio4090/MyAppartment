@@ -45,6 +45,7 @@ public class ProjectsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(ProjectsActivity.this, SettingsActivity.class));
             return true;
         }
 

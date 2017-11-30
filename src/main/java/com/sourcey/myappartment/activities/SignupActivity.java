@@ -15,7 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.sourcey.myappartment.R;
-import com.sourcey.myappartment.requests.RegisterRequest;
+import com.sourcey.myappartment.util.RegisterRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;

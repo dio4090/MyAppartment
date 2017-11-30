@@ -16,4 +16,10 @@
     <string name="main_welcome">Bienvenue dans votre espace utilisateur!</string>
     <string name="login">S\'identifier</string>
     <string name="create_account">Pas encore de compte? Créer une</string>
+    <string name="your_user_data">Vos informations d\'utilisateur:</string>
+    <string name="language">La langue:</string>
+    <string name="language_english">Anglais</string>
+    <string name="language_portuguese">Portugais brésilien</string>
+    <string name="language_french">Franch</string>
+    <string name="language_german">Allemand</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.sourcey.myappartment.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -15,8 +18,9 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.sourcey.myappartment.requests.LoginRequest;
+import com.sourcey.myappartment.util.LoginRequest;
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.util.MyContextWrapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +32,7 @@ import butterknife.Bind;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private String LANG_CURRENT = "en";
 
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
@@ -104,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         //Logica de navegacao
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, ProjectsActivity.class);
                         intent.putExtra("name", name);
                         intent.putExtra("address", address);
                         intent.putExtra("email", email);
@@ -135,6 +140,22 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 }, 3000);
+    }
+
+    public void changeLang(Context context, String lang) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Language", lang);
+        editor.apply();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        LANG_CURRENT = preferences.getString("Language", "en");
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, LANG_CURRENT));
     }
 
 

@@ -1,4 +1,4 @@
-package com.sourcey.myappartment.requests;
+package com.sourcey.myappartment.util;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;

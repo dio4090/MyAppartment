@@ -16,4 +16,10 @@
     <string name="login">Entrar</string>
     <string name="create_account">Não tem uma conta ainda? Crie uma</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="your_user_data">Seus dados de usuário:</string>
+    <string name="language">Linguagem:</string>
+    <string name="language_english">Inglês</string>
+    <string name="language_portuguese">Português do Brasil</string>
+    <string name="language_french">Françês</string>
+    <string name="language_german">Alemão</string>
 </resources>

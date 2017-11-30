@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Seus dados de usuário:"
+                android:text="@string/your_user_data"
                 android:textSize="23sp"
                 android:textStyle="bold"
                 android:textColor="@color/oil" />
@@ -147,6 +147,16 @@
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="@string/main_projects" />
+
+        <!-- Signup Button -->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_language"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Change language" />
 
     </LinearLayout>
 </ScrollView>
