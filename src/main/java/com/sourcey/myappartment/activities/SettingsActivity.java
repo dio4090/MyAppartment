@@ -12,11 +12,11 @@ import android.widget.Button;
 import android.widget.RadioButton;
 
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.util.Language;
 import com.sourcey.myappartment.util.MyContextWrapper;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String LANG_CURRENT = "en";
     private ViewHolder viewHolder = new ViewHolder();
 
 
@@ -35,6 +35,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SettingsActivity.this, ProjectsActivity.class));
+    }
+
 
     public void changeLang(Context context, String lang) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,11 +50,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        LANG_CURRENT = preferences.getString("Language", "en");
+        Language.LANG_CURRENT = preferences.getString("Language", Language.LANG_CURRENT);
 
-        super.attachBaseContext(MyContextWrapper.wrap(newBase, LANG_CURRENT));
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Language.LANG_CURRENT));
     }
 
 
@@ -59,19 +63,23 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.bt_confirm_settings:
                 if (this.viewHolder.rbEnglish.isChecked() == true) {
                     changeLang(SettingsActivity.this, "en");
+                    Language.LANG_CURRENT = "en";
                 } else if (this.viewHolder.rbPortuguese.isChecked() == true) {
                     changeLang(SettingsActivity.this, "pt");
+                    Language.LANG_CURRENT = "pt";
                 } else if (this.viewHolder.rbFranch.isChecked() == true) {
                     changeLang(SettingsActivity.this, "fr");
+                    Language.LANG_CURRENT = "fr";
                 } else if (this.viewHolder.rbGerman.isChecked() == true) {
                     changeLang(SettingsActivity.this, "de");
+                    Language.LANG_CURRENT = "de";
                 }
 
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
-                //startActivity(new Intent(MainActivity.this, MainActivity.class));
-                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+
+                //startActivity(new Intent(SettingsActivity.this, MainActivity.class));
                 break;
         }
     }

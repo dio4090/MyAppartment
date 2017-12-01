@@ -1,8 +1,11 @@
 package com.sourcey.myappartment.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +18,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.util.Language;
+import com.sourcey.myappartment.util.MyContextWrapper;
 import com.sourcey.myappartment.util.RegisterRequest;
 
 import org.json.JSONException;
@@ -58,6 +63,23 @@ public class SignupActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+    }
+
+    //APP LANGUAGE
+    public void changeLang(Context context, String lang) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Language", lang);
+        editor.apply();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        Language.LANG_CURRENT = preferences.getString("Language", Language.LANG_CURRENT);
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Language.LANG_CURRENT));
     }
 
     public void signup() {

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.model.UserSession;
+import com.sourcey.myappartment.util.Language;
 import com.sourcey.myappartment.util.MyContextWrapper;
 
 
@@ -31,18 +33,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btLogout.setOnClickListener(this);
         btLanguage.setOnClickListener(this);
 
-        Bundle extras = getIntent().getExtras();
+        tvName.setText(UserSession.getNAME());
+        tvAddress.setText(UserSession.getADDRESS());
+        tvEmail.setText(UserSession.getEMAIL());
+        tvMobileNumber.setText(Integer.toString(UserSession.getMobileNumber()));
 
-        String name = extras.getString("name");
-        String address = extras.getString("address");
-        String email = extras.getString("email");
-        int mobile_number = extras.getInt("mobile_number", -1);
+    }
 
-        tvName.setText(name);
-        tvAddress.setText(address);
-        tvEmail.setText(email);
-        tvMobileNumber.setText(Integer.toString(mobile_number));
+    //APP LANGUAGE
+    public void changeLang(Context context, String lang) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Language", lang);
+        editor.apply();
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        Language.LANG_CURRENT = preferences.getString("Language", Language.LANG_CURRENT);
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Language.LANG_CURRENT));
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MainActivity.this, ProjectsActivity.class));
     }
 
     @Override

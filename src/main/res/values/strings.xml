@@ -22,4 +22,7 @@
     <string name="language_portuguese">Brazilian portuguese</string>
     <string name="language_french">Franch</string>
     <string name="language_german">German</string>
+    <string name="main_password">Password</string>
+    <string name="already_member">Already a member? Login</string>
+    <string name="create">Create</string>
 </resources>

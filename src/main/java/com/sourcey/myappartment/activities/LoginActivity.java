@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.sourcey.myappartment.model.UserSession;
+import com.sourcey.myappartment.util.Language;
 import com.sourcey.myappartment.util.LoginRequest;
 import com.sourcey.myappartment.R;
 import com.sourcey.myappartment.util.MyContextWrapper;
@@ -32,7 +34,7 @@ import butterknife.Bind;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    private String LANG_CURRENT = "en";
+
 
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
@@ -66,6 +68,25 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //APP LANGUAGE
+    public void changeLang(Context context, String lang) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Language", lang);
+        editor.apply();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
+        Language.LANG_CURRENT = preferences.getString("Language", Language.LANG_CURRENT);
+
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, Language.LANG_CURRENT));
+    }
+
+
+    //LOGIN
     public void login() {
         Log.d(TAG, "Login");
 
@@ -86,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
-
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String strResponse) {
@@ -102,19 +122,13 @@ public class LoginActivity extends AppCompatActivity {
 
                         for(int i=0; i < jsonResponse.length(); i++) {
                             JSONObject jsonobject = jsonResponse.getJSONObject(i);
-                            name = jsonobject.getString("name");
-                            address = jsonobject.getString("address");
-                            email = jsonobject.getString("email");
-                            mobile_number = jsonobject.getInt("mobile_number");
+                            UserSession.setNAME(jsonobject.getString("name"));
+                            UserSession.setADDRESS(jsonobject.getString("address"));
+                            UserSession.setEMAIL(jsonobject.getString("email"));
+                            UserSession.setMobileNumber(jsonobject.getInt("mobile_number"));
                         }
 
-                        //Logica de navegacao
-                        Intent intent = new Intent(LoginActivity.this, ProjectsActivity.class);
-                        intent.putExtra("name", name);
-                        intent.putExtra("address", address);
-                        intent.putExtra("email", email);
-                        intent.putExtra("mobile_number", mobile_number);
-                        startActivity(intent);
+                        startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
 
                     } else {
                         //AlertDialog
@@ -141,23 +155,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }, 3000);
     }
-
-    public void changeLang(Context context, String lang) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("Language", lang);
-        editor.apply();
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(newBase);
-        LANG_CURRENT = preferences.getString("Language", "en");
-
-        super.attachBaseContext(MyContextWrapper.wrap(newBase, LANG_CURRENT));
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

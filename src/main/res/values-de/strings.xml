@@ -22,4 +22,6 @@
     <string name="language_portuguese">Brasilianisches Portugiesisch</string>
     <string name="language_french">Franch</string>
     <string name="language_german">Deutsche</string>
+    <string name="already_member">Schon ein Mitglied? Anmeldung</string>
+    <string name="main_password">Passwort</string>
 </resources>
