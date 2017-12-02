@@ -128,7 +128,8 @@ public class LoginActivity extends AppCompatActivity {
                             UserSession.setMobileNumber(jsonobject.getInt("mobile_number"));
                         }
 
-                        startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
+                        //startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
+                        startActivity(new Intent(LoginActivity.this, PhotoTest.class));
 
                     } else {
                         //AlertDialog
