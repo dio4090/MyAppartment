@@ -2,13 +2,12 @@ package com.sourcey.myappartment.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,19 +18,20 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.sourcey.myappartment.R;
 import com.sourcey.myappartment.database.DBUser;
 import com.sourcey.myappartment.model.User;
+import com.sourcey.myappartment.model.UserSessionData;
 import com.sourcey.myappartment.util.Language;
 import com.sourcey.myappartment.util.LoginRequest;
-import com.sourcey.myappartment.R;
 import com.sourcey.myappartment.util.MyContextWrapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         //Check if save user in DB
         if(ckLogin.isChecked() == true)
             this.save_user = true;
-        
+
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -122,12 +122,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String strResponse) {
                 try {
-
                     String name="", address="", email="";
                     int mobile_number=0;
 
                     boolean success = true;
 
+                    System.out.print("RESPOSTA: "+strResponse);
                     JSONArray jsonResponse = new JSONArray(strResponse);
 
                     if (success) {
@@ -136,18 +136,25 @@ public class LoginActivity extends AppCompatActivity {
                         for(int i=0; i < jsonResponse.length(); i++) {
                             JSONObject jsonobject = jsonResponse.getJSONObject(i);
                             u.setName(jsonobject.getString("name"));
-                            u.setAddess(jsonobject.getString("address"));
                             u.setEmail(jsonobject.getString("email"));
-                            u.setPassword(jsonobject.getString("password"));
+                            u.setAddress(jsonobject.getString("address"));
                             u.setMobile_number(jsonobject.getInt("mobile_number"));
                         }
 
-                        if(save_user) {
-                            saveUserInDB(u);
-                        }
+                        //Save user session
+                        UserSessionData.NAME = u.getName();
+                        UserSessionData.EMAIL = u.getEmail();
+                        UserSessionData.ADDRESS = u.getAddess();
+                        UserSessionData.MOBILE_NUMBER = u.getMobile_number();
 
-                        startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
-                        //startActivity(new Intent(LoginActivity.this, PhotoTest.class));
+                        if(UserSessionData.MOBILE_NUMBER != 0){
+                            if(save_user)
+                                saveUserInDB(u);
+                            startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
+                        } else {
+                            startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                            userNotExists();
+                        }
 
                     } else {
                         //AlertDialog
@@ -214,6 +221,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
+        _loginButton.setEnabled(true);
+    }
+
+    public void userNotExists() {
+        Toast.makeText(getBaseContext(), "Usuário não cadastrado!", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 

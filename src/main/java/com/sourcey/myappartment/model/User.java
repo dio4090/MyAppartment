@@ -34,7 +34,7 @@ public class User {
         return addess;
     }
 
-    public void setAddess(String addess) {
+    public void setAddress(String addess) {
         this.addess = addess;
     }
 

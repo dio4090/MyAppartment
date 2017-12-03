@@ -92,7 +92,7 @@ public class DBUser {
 
         if (cur.moveToFirst()) {
             u.setName(cur.getString(cur.getColumnIndex(NAME)));
-            u.setAddess(cur.getString(cur.getColumnIndex(ADDRESS)));
+            u.setAddress(cur.getString(cur.getColumnIndex(ADDRESS)));
             u.setEmail(cur.getString(cur.getColumnIndex(EMAIL)));
             u.setPassword(cur.getString(cur.getColumnIndex(PASSWORD)));
             u.setMobile_number(cur.getInt(cur.getColumnIndex(MOBILE_NUMBER)));

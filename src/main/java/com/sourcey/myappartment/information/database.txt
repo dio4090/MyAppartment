@@ -1,0 +1,24 @@
+------DATABASE PROJECT INFORMATION------
+
+
+USER:
+-- Get last user from database;
+User u = new User();
+DBUser dbUser = new DBUser();
+
+//Implement in method
+user = getUserFromDB(u);
+
+//User to ger user information
+User getUserFromDB(User u) {
+    try {
+        dbUser.open();
+        u = dbUser.retreiveUserFromDB(u);
+        dbUser.close();
+        return u;
+    } catch (Exception e) {
+        Log.e(TAG, "<loadImageFromDB> Error : " + e.getLocalizedMessage());
+        dbUser.close();
+        return null;
+    }
+}
