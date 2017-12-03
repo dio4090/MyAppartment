@@ -11,6 +11,7 @@ import android.util.Log;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +19,8 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.sourcey.myappartment.model.UserSession;
+import com.sourcey.myappartment.database.DBUser;
+import com.sourcey.myappartment.model.User;
 import com.sourcey.myappartment.util.Language;
 import com.sourcey.myappartment.util.LoginRequest;
 import com.sourcey.myappartment.R;
@@ -34,7 +36,9 @@ import butterknife.Bind;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    boolean save_user = false;
 
+    DBUser dbUser;
 
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
@@ -46,6 +50,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        dbUser = new DBUser(this);
+
+        CheckBox ckLogin= (CheckBox) findViewById(R.id.ckLogin);
+
+        //Check if save user in DB
+        if(ckLogin.isChecked() == true)
+            this.save_user = true;
         
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -116,20 +127,27 @@ public class LoginActivity extends AppCompatActivity {
                     int mobile_number=0;
 
                     boolean success = true;
+
                     JSONArray jsonResponse = new JSONArray(strResponse);
 
                     if (success) {
+                        User u = new User();
 
                         for(int i=0; i < jsonResponse.length(); i++) {
                             JSONObject jsonobject = jsonResponse.getJSONObject(i);
-                            UserSession.setNAME(jsonobject.getString("name"));
-                            UserSession.setADDRESS(jsonobject.getString("address"));
-                            UserSession.setEMAIL(jsonobject.getString("email"));
-                            UserSession.setMobileNumber(jsonobject.getInt("mobile_number"));
+                            u.setName(jsonobject.getString("name"));
+                            u.setAddess(jsonobject.getString("address"));
+                            u.setEmail(jsonobject.getString("email"));
+                            u.setPassword(jsonobject.getString("password"));
+                            u.setMobile_number(jsonobject.getInt("mobile_number"));
                         }
 
-                        //startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
-                        startActivity(new Intent(LoginActivity.this, PhotoTest.class));
+                        if(save_user) {
+                            saveUserInDB(u);
+                        }
+
+                        startActivity(new Intent(LoginActivity.this, ProjectsActivity.class));
+                        //startActivity(new Intent(LoginActivity.this, PhotoTest.class));
 
                     } else {
                         //AlertDialog
@@ -155,6 +173,19 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 }, 3000);
+    }
+
+    Boolean saveUserInDB(User user){
+        try {
+            dbUser.open();
+            dbUser.insertUser(user);
+            dbUser.close();
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "<loadImageFromDB> Error : " + e.getLocalizedMessage());
+            dbUser.close();
+            return false;
+        }
     }
 
     @Override

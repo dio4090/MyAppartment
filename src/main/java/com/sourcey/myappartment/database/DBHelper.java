@@ -7,9 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by diogo on 01/12/2017.
- */
 
 public class DBHelper {
     public static final String IMAGE_ID = "id";

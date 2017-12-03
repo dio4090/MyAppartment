@@ -21,7 +21,7 @@ import java.io.InputStream;
 public class PhotoTest extends AppCompatActivity implements View.OnClickListener {
 
     private static final int SELECT_PICTURE = 100;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "PhotoTest";
 
     CoordinatorLayout coordinatorLayout;
     FloatingActionButton btnSelectImage;
