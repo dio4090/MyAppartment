@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="Email"
-                android:textColor="@color/oil"
-                android:text="diogo.rocha42@outlook.com"/>
+                android:textColor="@color/oil"/>
         </android.support.design.widget.TextInputLayout>
 
         <!--  Password Label -->
@@ -44,8 +43,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="Password"
-                android:textColor="@color/oil"
-                android:text="dio123"/>
+                android:textColor="@color/oil"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

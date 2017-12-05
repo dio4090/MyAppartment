@@ -12,6 +12,7 @@ public class User {
     private String email;
     private String password;
     private int mobile_number;
+    private int login_updated_at;
 
 
     public int getUser_id() {
@@ -60,5 +61,13 @@ public class User {
 
     public void setMobile_number(int mobile_number) {
         this.mobile_number = mobile_number;
+    }
+
+    public int getLogin_updated_at() {
+        return login_updated_at;
+    }
+
+    public void setLogin_updated_at(int login_updated_at) {
+        this.login_updated_at = login_updated_at;
     }
 }

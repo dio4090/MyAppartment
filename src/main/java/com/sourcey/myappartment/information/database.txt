@@ -22,3 +22,32 @@ User getUserFromDB(User u) {
         return null;
     }
 }
+
+
+
+SELECT WHERE SPECIFIC VALUE
+    public User getLastLoggedUser() {
+//        String[] whereArgs = new String[] {
+//                ""
+//                //"value2"
+//        };
+
+        String selectUser =
+                "SELECT "+EMAIL+","+PASSWORD+" FROM "+USER_TABLE +" " +
+                        "WHERE email = ? ";
+
+        Cursor cursor = mDb.rawQuery(selectUser, whereArgs);
+
+//        if (cursor.moveToFirst()){
+//            do {
+//                // Passing values
+//                UserSessionData.NAME = (cursor.getString(cursor.getColumnIndex("name")));
+//                UserSessionData.ADDRESS = (cursor.getString(cursor.getColumnIndex("address")));
+//                UserSessionData.EMAIL = (cursor.getString(cursor.getColumnIndex("email")));
+//                UserSessionData.MOBILE_NUMBER = (cursor.getInt(cursor.getColumnIndex("mobile_number")));
+//            } while(cursor.moveToNext());
+//        }
+
+        cursor.close();
+        mDb.close();
+    }

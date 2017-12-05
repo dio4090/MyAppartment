@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_SIGNUP = 0;
     boolean save_user = false;
 
+    CheckBox ckLogin;
     DBUser dbUser;
 
     @Bind(R.id.input_email) EditText _emailText;
@@ -47,16 +48,19 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        User user = new User();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         dbUser = new DBUser(this);
 
-        CheckBox ckLogin= (CheckBox) findViewById(R.id.ckLogin);
+        this.ckLogin = (CheckBox) findViewById(R.id.ckLogin);
 
-        //Check if save user in DB
-        if(ckLogin.isChecked() == true)
-            this.save_user = true;
+        //ADD LAST USER
+        user = dbUser.getLastLoggedUser();
+        _emailText.setText(user.getEmail());
+        _passwordText.setText(user.getPassword());
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -77,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
     }
 
     //APP LANGUAGE
@@ -100,6 +105,12 @@ public class LoginActivity extends AppCompatActivity {
     //LOGIN
     public void login() {
         Log.d(TAG, "Login");
+
+        //Check if save user in DB
+        if(this.ckLogin.isChecked()){
+            this.save_user = true;
+        }
+
 
         if (!validate()) {
             onLoginFailed();
@@ -137,8 +148,10 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonobject = jsonResponse.getJSONObject(i);
                             u.setName(jsonobject.getString("name"));
                             u.setEmail(jsonobject.getString("email"));
+                            u.setPassword(jsonobject.getString("password"));
                             u.setAddress(jsonobject.getString("address"));
                             u.setMobile_number(jsonobject.getInt("mobile_number"));
+                            u.setLogin_updated_at((int) System.currentTimeMillis());
                         }
 
                         //Save user session

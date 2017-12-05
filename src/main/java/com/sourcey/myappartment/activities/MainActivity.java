@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbUser = new DBUser(this);
+
         TextView tvName = (TextView) findViewById(R.id.tv_name);
         TextView tvAddress = (TextView) findViewById(R.id.tv_address);
         TextView tvEmail = (TextView) findViewById(R.id.tv_email);

@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sourcey.myappartment.model.User;
+import com.sourcey.myappartment.model.UserSessionData;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class DBUser {
@@ -17,6 +21,7 @@ public class DBUser {
     public static String EMAIL = "email";
     public static String PASSWORD = "password";
     public static String MOBILE_NUMBER = "mobile_number";
+    public static String LOGIN_UPDATED_AT = "login_updated_at";
 
     private final Context mContext;
     private DatabaseHelper mDbHelper;
@@ -32,9 +37,10 @@ public class DBUser {
                     USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     +NAME + " TEXT,"
                     +ADDRESS+" TEXT,"
-                    +EMAIL+" TEXT NOT NULL,"
+                    +EMAIL+" TEXT UNIQUE NOT NULL,"
                     +PASSWORD+" TEXT NOT NULL,"
-                    +MOBILE_NUMBER+" INTEGER );";
+                    +MOBILE_NUMBER+" INTEGER,"
+                    +LOGIN_UPDATED_AT+" INT );";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -72,15 +78,78 @@ public class DBUser {
         mDbHelper.close();
     }
 
+    public void dropTableUser() {
+        mDb.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
+    }
+
+    public void createUserTable() {
+        mDb.execSQL(CREATE_USER_TABLE);
+    }
+
+    public void getLastUser() {
+
+    }
+
     // Insert the user to the Sqlite DB
     public void insertUser(User user){
+
         ContentValues cv = new ContentValues();
         cv.put(NAME, user.getName());
         cv.put(ADDRESS, user.getAddess());
         cv.put(EMAIL, user.getEmail());
         cv.put(PASSWORD, user.getPassword());
         cv.put(MOBILE_NUMBER, user.getMobile_number());
+        cv.put(LOGIN_UPDATED_AT, user.getLogin_updated_at());
         mDb.insert(USER_TABLE, null, cv);
+    }
+
+    public void getAllUsers() {
+        open();
+
+        String queryStringAll = "SELECT * FROM "+USER_TABLE;
+
+        Cursor cursor = mDb.rawQuery(queryStringAll, null);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+        Date resultdate;
+
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                System.out.println("Usuário "+cursor.getInt(cursor.getColumnIndex("id")) );
+                System.out.println("Nome: "+cursor.getString(cursor.getColumnIndex("name")));
+                System.out.println("Email: "+cursor.getString(cursor.getColumnIndex("email")));
+                System.out.println("Address: "+cursor.getString(cursor.getColumnIndex("address")));
+
+                resultdate = new Date(cursor.getInt(cursor.getColumnIndex("login_updated_at")));
+                System.out.println("Updated_at"+sdf.format(resultdate));
+
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+        close();
+    }
+
+    public User getLastLoggedUser() {
+        User u = new User();
+
+        open();
+        String selectUser = "SELECT "+EMAIL+","+PASSWORD+" FROM "+USER_TABLE +" " +
+                                "WHERE "+LOGIN_UPDATED_AT+" = (SELECT max("+LOGIN_UPDATED_AT+") FROM "+USER_TABLE+") ";
+
+
+        Cursor cursor = mDb.rawQuery(selectUser, null);
+
+        if (cursor.moveToFirst()){
+            u.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            u.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+        }
+
+        cursor.close();
+        close();
+        return u;
     }
 
     // Get the user from SQLite DB
