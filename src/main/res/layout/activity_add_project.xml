@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:layout_marginBottom="25dp">
+            android:layout_marginBottom="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-15dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="20dp">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,16 +112,24 @@
                 android:text="" />
         </android.support.design.widget.TextInputLayout>
 
-        <!-- Signup Button -->
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Imagem DO Projeto (+)"/>
+
+        <include layout="@layout/content_add_project" />
+
+        <!-- Add Button -->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_logout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="1dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:text="Adicioanr projeto" />
-
 
     </LinearLayout>
 </ScrollView>

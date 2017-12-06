@@ -35,7 +35,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.PhotoTest" />
-        <activity android:name=".activities.AddProjectActivity"></activity>
+        <activity android:name=".activities.AddProjectActivity" />
+        <activity android:name=".activities.FragmentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
     </application>
 
 </manifest>

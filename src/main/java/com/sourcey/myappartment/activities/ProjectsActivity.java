@@ -125,7 +125,7 @@ public class ProjectsActivity extends AppCompatActivity {
         public View getView(int i, View view, ViewGroup parent) {
             view = getLayoutInflater().inflate(R.layout.customlayout, null);
 
-            ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+            ImageView imageView = (ImageView) view.findViewById(R.id.projectImageView);
             TextView textView_name = (TextView) view.findViewById(R.id.textView_name);
             TextView textView_description = (TextView) view.findViewById(R.id.textView_description);
 

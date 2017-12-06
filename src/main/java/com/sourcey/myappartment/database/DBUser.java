@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sourcey.myappartment.model.User;
-import com.sourcey.myappartment.model.UserSessionData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
