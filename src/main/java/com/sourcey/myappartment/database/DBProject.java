@@ -23,7 +23,7 @@ public class DBProject {
     public static String DESCRIPTION = "description";
     public static String IS_ENABLED = "is_enabled";
     public static String IS_PRIVATE = "is_private";
-    public static String PROJECT_IMAGE = "project_image";
+    public static String IMAGE_ID = "image_id";
 
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -36,15 +36,16 @@ public class DBProject {
     private static final String CREATE_PROJECT_TABLE =
             "CREATE TABLE " + PROJECT_TABLE + " (" +
                     PROJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    +NAME + " TEXT NOT NULL,"
-                    +CREATED_AT+" INTEGER,"
-                    +UPDATED_AT+" INTEGER,"
-                    +CATEGORIE_ID+" INTEGER,"
-                    +DESCRIPTION+" TEXT,"
-                    +IS_ENABLED+" BOOLEAN NOT NULL,"
-                    +IS_PRIVATE+" BOOLEAN,"
-                    +PROJECT_IMAGE+" BLOB,"
-                    +"FOREIGN KEY "+CATEGORIE_ID+" REFERENCES categories(id) );";
+                    +NAME + " TEXT NOT NULL, "
+                    +CREATED_AT+" INTEGER, "
+                    +UPDATED_AT+" INTEGER, "
+                    +CATEGORIE_ID+" INTEGER, "
+                    +IMAGE_ID+" INTEGER, "
+                    +DESCRIPTION+" TEXT, "
+                    +IS_ENABLED+" BOOLEAN NOT NULL, "
+                    +IS_PRIVATE+" BOOLEAN, "
+                    +"FOREIGN KEY ("+CATEGORIE_ID+") REFERENCES categories(id), "
+                    +"FOREIGN KEY ("+IMAGE_ID+") REFERENCES images(id) );";
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -134,26 +135,5 @@ public class DBProject {
         closeDatabase();
     }
 
-    // Insert the image to the Sqlite DB
-    public void insertImage(byte[] imageBytes) {
-        ContentValues cv = new ContentValues();
-        cv.put(PROJECT_IMAGE, imageBytes);
-        mDb.insert(PROJECT_TABLE, null, cv);
-    }
-
-    // Get the image from SQLite DB
-    // We will just get the last image we just saved for convenience...
-    public byte[] retreiveImageFromDB() {
-        Cursor cur = mDb.query(true, PROJECT_TABLE, new String[]{PROJECT_IMAGE,},
-                null, null, null, null,
-                PROJECT_ID + " DESC", "1");
-        if (cur.moveToFirst()) {
-            byte[] blob = cur.getBlob(cur.getColumnIndex(PROJECT_IMAGE));
-            cur.close();
-            return blob;
-        }
-        cur.close();
-        return null;
-    }
 
 }

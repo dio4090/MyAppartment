@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -97,6 +96,11 @@ public class ProjectsActivity extends AppCompatActivity {
 
         if (id == R.id.action_profile) {
             startActivity(new Intent(ProjectsActivity.this, MainActivity.class));
+            return true;
+        }
+
+        if (id == R.id.action_apartment) {
+            startActivity(new Intent(ProjectsActivity.this, PhotoTest.class));
             return true;
         }
 

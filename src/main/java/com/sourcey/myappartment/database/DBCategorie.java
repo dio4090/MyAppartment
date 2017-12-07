@@ -25,7 +25,7 @@ public class DBCategorie {
 
     private static final String DATABASE_NAME = "myappartment.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String CATEGORIE_TABLE = "projects";
+    private static final String CATEGORIE_TABLE = "categories";
 
 
     private static final String CREATE_CATEGORIE_TABLE =

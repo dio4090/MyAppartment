@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.database.DBCategorie;
 import com.sourcey.myappartment.database.DBHelper;
+import com.sourcey.myappartment.database.DBProject;
 import com.sourcey.myappartment.util.Utils;
 
 import java.io.InputStream;
@@ -25,10 +27,12 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
     CoordinatorLayout coordinatorLayout;
     Button btnSelectImage;
-    Button btnLoadImage;
+    Button btnAddProject;
     AppCompatImageView imgView;
 
     DBHelper dbHelper;
+    DBProject dbProject;
+    DBCategorie dbCategorie;
 
 
     @Override
@@ -36,8 +40,16 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
+
         btnSelectImage = (Button) findViewById(R.id.btnSelectImage);
+        btnAddProject = (Button) findViewById(R.id.btnAddProject);
+        imgView = (AppCompatImageView) findViewById(R.id.imgView);
+
         btnSelectImage.setOnClickListener(this);
+        btnAddProject.setOnClickListener(this);
+
+        dbHelper = new DBHelper(this);
+        dbProject = new DBProject(this);
 
     }
 
@@ -57,8 +69,10 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
 
     // Show simple message using SnackBar
     void showMessage(String message) {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
-        snackbar.show();
+//        Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
+//        snackbar.show();
+//
+        Snackbar.make(findViewById(R.id.add_project_activity),message, Snackbar.LENGTH_LONG).show();
     }
 
     // Choose an image from Gallery
@@ -103,7 +117,8 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
             dbHelper.close();
             return true;
         } catch (Exception e) {
-            Log.e(TAG, "<loadImageFromDB> Error : " + e.getLocalizedMessage());
+            //Log.e(TAG, "<loadImageFromDB> Error : " + e.getLocalizedMessage());
+            System.out.print("Error: "+e.getLocalizedMessage());
             dbHelper.close();
             return false;
         }

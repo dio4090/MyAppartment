@@ -16,10 +16,10 @@ public class DBHelper {
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
-    private static final String DATABASE_NAME = "images.db";
+    private static final String DATABASE_NAME = "myappartment.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String IMAGES_TABLE = "ImagesTable";
+    private static final String IMAGES_TABLE = "images";
 
 
     private static final String CREATE_IMAGES_TABLE =
@@ -61,6 +61,14 @@ public class DBHelper {
 
     public void close() {
         mDbHelper.close();
+    }
+
+    public void dropTableProject() {
+        mDb.execSQL("DROP TABLE IF EXISTS " + IMAGES_TABLE);
+    }
+
+    public void createProjectTable() {
+        mDb.execSQL(CREATE_IMAGES_TABLE);
     }
 
     // Insert the image to the Sqlite DB
