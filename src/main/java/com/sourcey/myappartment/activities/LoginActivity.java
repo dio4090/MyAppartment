@@ -19,6 +19,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.database.DBCategorie;
+import com.sourcey.myappartment.database.DBHelper;
+import com.sourcey.myappartment.database.DBProject;
 import com.sourcey.myappartment.database.DBUser;
 import com.sourcey.myappartment.model.User;
 import com.sourcey.myappartment.model.UserSessionData;
@@ -49,6 +52,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         User user = new User();
+
+        //for problems with database
+        resetDatabase();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -82,6 +88,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void resetDatabase(){
+        DBProject dbProject = new DBProject(this);
+        DBCategorie dbCategorie = new DBCategorie(this);
+        DBHelper dbHelper = new DBHelper(this);
+
+        dbProject.open();
+        dbProject.dropTableProject();
+        dbProject.createProjectTable();
+        dbProject.open();
+
+        dbCategorie.openDatabase();
+        dbCategorie.dropTableCategorie();
+        dbCategorie.createCategorieTable();
+        dbCategorie.closeDatabase();
+
+        dbHelper.open();
+        dbHelper.dropTableProject();
+        dbHelper.createProjectTable();
+        dbHelper.close();
     }
 
     //APP LANGUAGE

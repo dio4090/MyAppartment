@@ -11,14 +11,19 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import com.sourcey.myappartment.R;
 import com.sourcey.myappartment.database.DBCategorie;
 import com.sourcey.myappartment.database.DBHelper;
 import com.sourcey.myappartment.database.DBProject;
+import com.sourcey.myappartment.model.Categorie;
+import com.sourcey.myappartment.model.Project;
 import com.sourcey.myappartment.util.Utils;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class AddProjectActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,9 +35,19 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
     Button btnAddProject;
     AppCompatImageView imgView;
 
+    EditText etProjectName;
+    EditText etProjectDescription;
+
+    CheckBox checkBoxSuggestion;
+    CheckBox checkBoxReform;
+    CheckBox checkBoxImprovement;
+
     DBHelper dbHelper;
     DBProject dbProject;
     DBCategorie dbCategorie;
+
+    Project project;
+    Categorie categorie;
 
 
     @Override
@@ -40,16 +55,23 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
+        etProjectName = (EditText) findViewById(R.id.etProjectName);
+        etProjectDescription = (EditText) findViewById(R.id.etProjectDescription);
 
         btnSelectImage = (Button) findViewById(R.id.btnSelectImage);
         btnAddProject = (Button) findViewById(R.id.btnAddProject);
         imgView = (AppCompatImageView) findViewById(R.id.imgView);
+
+        checkBoxImprovement = (CheckBox) findViewById(R.id.checkbox_improvement);
+        checkBoxReform = (CheckBox) findViewById(R.id.checkbox_reform);
+        checkBoxSuggestion = (CheckBox) findViewById(R.id.checkbox_suggestion);
 
         btnSelectImage.setOnClickListener(this);
         btnAddProject.setOnClickListener(this);
 
         dbHelper = new DBHelper(this);
         dbProject = new DBProject(this);
+        dbCategorie = new DBCategorie(this);
 
     }
 
@@ -60,23 +82,54 @@ public class AddProjectActivity extends AppCompatActivity implements View.OnClic
                 openImageChooser();
                 break;
 
-            case R.id.btnLoadImage:
-                loadImageFromDB();
+            case R.id.btnAddProject:
+
+                Categorie cat = new Categorie();
+                Project project = new Project();
+
+                cat.setName(getProjectCategory());
+
+                if(dbCategorie.insertCategorie(cat)){
+                    project = setProject(project);
+                    dbProject.insertProject(project);
+                }
+
+                startActivity(new Intent(AddProjectActivity.this, ProjectsActivity.class));
                 break;
         }
+    }
+
+    public Project setProject(Project p) {
+        p.setCategorie_id(dbCategorie.getLastCategorieId());
+        p.setName(etProjectName.getText().toString());
+        p.setDescription(etProjectDescription.getText().toString());
+        p.setImage_id(dbHelper.retreiveLastImageFromDB());
+        p.setIs_enabled(true);
+        return p;
+    }
+
+    public String getProjectCategory() {
+        if(checkBoxImprovement.isChecked())
+            return "Melhoria";
+
+        if(checkBoxReform.isChecked())
+            return "Reforma";
+
+        if(checkBoxSuggestion.isChecked())
+            return "Sugestão";
+
+        return "Sem Categoria";
     }
 
 
     // Show simple message using SnackBar
     void showMessage(String message) {
-//        Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
-//        snackbar.show();
-//
         Snackbar.make(findViewById(R.id.add_project_activity),message, Snackbar.LENGTH_LONG).show();
     }
 
     // Choose an image from Gallery
     void openImageChooser(){
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

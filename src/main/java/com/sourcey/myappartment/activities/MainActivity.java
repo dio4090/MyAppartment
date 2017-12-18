@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.database.DBProject;
 import com.sourcey.myappartment.database.DBUser;
 import com.sourcey.myappartment.model.UserSessionData;
 import com.sourcey.myappartment.util.Language;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     DBUser dbUser;
+    DBProject dbProject;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         dbUser = new DBUser(this);
+        dbProject = new DBProject(this);
 
         TextView tvName = (TextView) findViewById(R.id.tv_name);
         TextView tvAddress = (TextView) findViewById(R.id.tv_address);

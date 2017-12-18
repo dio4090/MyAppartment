@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.sourcey.myappartment.model.Project;
+
 
 public class DBHelper {
     public static final String IMAGE_ID = "id";
@@ -91,5 +93,22 @@ public class DBHelper {
         }
         cur.close();
         return null;
+    }
+
+    public int retreiveLastImageFromDB() {
+        open();
+        int image_id = 0;
+
+        Cursor cur = mDb.query(true, IMAGES_TABLE, new String[]{IMAGE_ID,},
+                null, null, null, null,
+                IMAGE_ID + " DESC", "1");
+        if (cur.moveToFirst()) {
+            image_id = cur.getInt(cur.getColumnIndex(IMAGE_ID));
+            cur.close();
+        }
+
+        cur.close();
+        close();
+        return image_id ;
     }
 }

@@ -6,12 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sourcey.myappartment.model.Project;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 public class DBProject {
 
@@ -74,12 +74,12 @@ public class DBProject {
         mDbHelper = new DatabaseHelper(mContext);
     }
 
-    public DBProject openDatabase() throws SQLException {
+    public DBProject open() throws SQLException {
         mDb = mDbHelper.getWritableDatabase();
         return this;
     }
 
-    public void closeDatabase() {
+    public void close() {
         mDbHelper.close();
     }
 
@@ -91,48 +91,53 @@ public class DBProject {
         mDb.execSQL(CREATE_PROJECT_TABLE);
     }
 
-    public void insertProject(Project project){
-        openDatabase();
+    public boolean insertProject(Project project){
+        open();
 
-        ContentValues cv = new ContentValues();
-        cv.put(NAME, project.getName());
-        cv.put(CREATED_AT, project.getCategorie_id());
-        cv.put(UPDATED_AT, project.getUpdated_at());
-        cv.put(CATEGORIE_ID, project.getCategorie_id());
-        cv.put(DESCRIPTION, project.getDescription());
-        cv.put(IS_ENABLED, project.isIs_enabled());
-        mDb.insert(PROJECT_TABLE, null, cv);
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(NAME, project.getName());
+            cv.put(CREATED_AT, project.getCreated_at());
+            cv.put(UPDATED_AT, project.getUpdated_at());
+            cv.put(CATEGORIE_ID, project.getCategorie_id());
+            cv.put(IMAGE_ID, project.getImage_id());
+            cv.put(DESCRIPTION, project.getDescription());
+            cv.put(IS_ENABLED, project.isIs_enabled());
+            cv.put(IS_PRIVATE, false);
+            mDb.insert(PROJECT_TABLE, null, cv);
+            close();
+            return true;
 
-        closeDatabase();
+        } catch(SQLiteException e) {
+            System.out.print(e.getMessage());
+            close();
+            return false;
+        }
+
     }
 
-    public void getAllProjects() {
-        openDatabase();
+    public ArrayList<Project> getAllProjects() {
+        open();
+
+        ArrayList<Project> listProject = new ArrayList<Project>();
 
         String queryStringAll = "SELECT * FROM "+PROJECT_TABLE;
-
         Cursor cursor = mDb.rawQuery(queryStringAll, null);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-        Date resultDate;
-
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                System.out.println("Usuário "+cursor.getInt(cursor.getColumnIndex("id")) );
-                System.out.println("Nome: "+cursor.getString(cursor.getColumnIndex("name")));
-                System.out.println("Email: "+cursor.getString(cursor.getColumnIndex("email")));
-                System.out.println("Address: "+cursor.getString(cursor.getColumnIndex("address")));
-
-                resultDate = new Date(cursor.getInt(cursor.getColumnIndex("login_updated_at")));
-                System.out.println("Updated_at"+sdf.format(resultDate));
-
+                Project p = new Project();
+                p.setProject_id(cursor.getInt(cursor.getColumnIndex(PROJECT_ID)));
+                p.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+                p.setCategorie_id(cursor.getInt(cursor.getColumnIndex(CATEGORIE_ID)));
+                p.setImage_id(cursor.getInt(cursor.getColumnIndex(IMAGE_ID)));
+                //p.setIs_enabled(cursor.(cursor.getColumnIndex(IS_ENABLED)));
                 cursor.moveToNext();
             }
         }
 
         cursor.close();
-        closeDatabase();
+        close();
     }
 
 

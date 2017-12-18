@@ -47,6 +47,7 @@
             android:layout_marginTop="-15dp"
             android:layout_marginBottom="8dp">
             <EditText
+                android:id="@+id/etProjectName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/oil"
@@ -70,6 +71,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_improvement"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
@@ -77,6 +79,7 @@
             android:text="Melhoria"
             />
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_reform"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
@@ -84,11 +87,12 @@
             android:text="Reforma"
             />
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_suggestion"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:textColor="@color/oil"
-            android:text="Sujestão"
+            android:text="Sugestão"
             />
 
         <!-- Name Label -->
@@ -107,6 +111,7 @@
             android:layout_marginTop="-15dp"
             android:layout_marginBottom="20dp">
             <EditText
+                android:id="@+id/etProjectDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/oil"

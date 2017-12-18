@@ -19,11 +19,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sourcey.myappartment.R;
+import com.sourcey.myappartment.database.DBHelper;
+import com.sourcey.myappartment.database.DBProject;
 import com.sourcey.myappartment.util.Language;
 import com.sourcey.myappartment.util.MyContextWrapper;
 
 
 public class ProjectsActivity extends AppCompatActivity {
+
+    DBProject dbProject;
+    DBHelper dbHelper;
 
     int[] IMAGES = {R.drawable.people1, R.drawable.people2, R.drawable.people3, R.drawable.people4};
     String[] NAMES = {"Name 1", "Name 2", "Name 3", "Name 4"};

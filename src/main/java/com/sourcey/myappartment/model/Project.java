@@ -13,7 +13,7 @@ public class Project {
     private int categorie_id;
     private String description;
     private boolean is_enabled;
-    private byte[] project_image;
+    private int image_id;
 
     public int getProject_id() {
         return project_id;
@@ -71,11 +71,11 @@ public class Project {
         this.name = name;
     }
 
-    public byte[] getProject_image() {
-        return project_image;
+    public int getImage_id() {
+        return image_id;
     }
 
-    public void setProject_image(byte[] project_image) {
-        this.project_image = project_image;
+    public void setImage_id(int image_id) {
+        this.image_id = image_id;
     }
 }

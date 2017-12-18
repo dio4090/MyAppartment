@@ -78,15 +78,15 @@ public class DBCategorie {
     }
 
 
-    public void insertCategorie(Categorie categorie){
+    public boolean insertCategorie(Categorie categorie){
         openDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(CATEGORIE_ID, categorie.getId());
         cv.put(NAME, categorie.getName());
         mDb.insert(CATEGORIE_TABLE, null, cv);
 
         closeDatabase();
+        return true;
     }
 
     public ArrayList<Categorie> getAllCategories() {
@@ -112,5 +112,22 @@ public class DBCategorie {
         closeDatabase();
 
         return listCategorie;
+    }
+
+    public int getLastCategorieId() {
+        int categorie_id = 0;
+        openDatabase();
+
+        String queryStringAll = "SELECT "+CATEGORIE_ID+" FROM "+CATEGORIE_TABLE+" LIMIT 1 ORDER BY DESC";
+        Cursor cursor = mDb.rawQuery(queryStringAll, null);
+
+        if (cursor.moveToFirst()) {
+            categorie_id = cursor.getInt(cursor.getColumnIndex(CATEGORIE_ID));
+        }
+
+        cursor.close();
+        closeDatabase();
+
+        return categorie_id;
     }
 }
